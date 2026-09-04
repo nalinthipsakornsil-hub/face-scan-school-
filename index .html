@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b4fa8">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="เช็กชื่อ">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="stylesheet" href="style.css">
+  <title>สแกนหน้าเข้าเรียน</title>
+</head>
+<body>
+<div class="shell">
+  <header>
+    <div class="brand"><div class="logo">◉</div><div><b>Face Scan</b><span>ระบบเช็กชื่อเข้าเรียน</span></div></div>
+    <div class="online">● ออนไลน์</div>
+  </header>
+
+  <main>
+    <section id="homePage" class="page active">
+      <div class="hero">
+        <div><p class="eyebrow">SCHOOL ATTENDANCE</p><h1>สแกนหน้า<br><em>เข้าเรียน</em></h1>
+        <p>เช็กชื่อเข้าเรียนอย่างรวดเร็ว พร้อมบันทึกเวลาอัตโนมัติ</p>
+        <button class="main-btn" onclick="go('scanPage')">เริ่มสแกนใบหน้า →</button></div>
+        <div class="phone-art"><div class="screen"><span>FACE SCAN</span><div class="fake-face">🙂</div><b>พร้อมสแกน</b><small>08:30:45</small></div></div>
+      </div>
+      <div class="quick">
+        <button onclick="go('scanPage')">📷<b>สแกนหน้า</b><span>เช็กชื่อเข้าเรียน</span></button>
+        <button onclick="go('historyPage')">📋<b>ประวัติ</b><span>ดูรายการเช็กชื่อ</span></button>
+        <button onclick="go('summaryPage')">📊<b>สรุปผล</b><span>รายงานการเข้าเรียน</span></button>
+      </div>
+    </section>
+
+    <section id="scanPage" class="page">
+      <button class="back" onclick="go('homePage')">‹ กลับหน้าหลัก</button>
+      <h2>สแกนใบหน้าเข้าเรียน</h2>
+      <div class="scan-layout">
+        <div class="camera">
+          <video id="video" autoplay playsinline></video>
+          <div id="cameraHint" class="camera-hint">📷<br><span>กดเปิดกล้องเพื่อเริ่มต้น</span></div>
+          <div class="face-frame"></div><div id="laser" class="laser"></div>
+          <div id="scanText" class="scan-text"></div>
+        </div>
+        <div class="panel">
+          <div class="ready"><span>✓</span><div><b id="scanStatus">พร้อมใช้งาน</b><small id="scanMessage">กรอกข้อมูลและเปิดกล้อง</small></div></div>
+          <label>ชื่อ-นามสกุล<input id="name" placeholder="กรอกชื่อ-นามสกุล"></label>
+          <label>รหัสนักเรียน<input id="sid" placeholder="กรอกรหัสนักเรียน"></label>
+          <label>ชั้นเรียน<select id="class"><option>ม.6/2</option><option>ม.6/1</option><option>ม.6/3</option></select></label>
+          <button class="camera-btn" onclick="openCamera()">📷 เปิดกล้อง iPad</button>
+          <button class="main-btn full" onclick="simulateScan()">🔎 สแกนและเช็กชื่อ</button>
+          <p class="privacy">เวอร์ชันต้นแบบ: การสแกนเป็นการจำลองเพื่อสาธิตระบบ</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="historyPage" class="page">
+      <button class="back" onclick="go('homePage')">‹ กลับหน้าหลัก</button>
+      <div class="title-row"><div><h2>ประวัติการเช็กชื่อ</h2><p>รายการที่บันทึกในอุปกรณ์นี้</p></div><button class="clear" onclick="clearData()">ล้างข้อมูล</button></div>
+      <div class="stats"><div><b id="allCount">0</b><span>ทั้งหมด</span></div><div><b id="todayCount">0</b><span>วันนี้</span></div></div>
+      <div class="table-card"><table><thead><tr><th>เวลา</th><th>ชื่อ</th><th>รหัส</th><th>ชั้น</th><th>สถานะ</th></tr></thead><tbody id="list"></tbody></table></div>
+    </section>
+
+    <section id="summaryPage" class="page">
+      <button class="back" onclick="go('homePage')">‹ กลับหน้าหลัก</button>
+      <h2>สรุปผลการเข้าเรียน</h2>
+      <div class="summary-card"><div class="big-number" id="summaryNumber">0</div><div><b>นักเรียนที่เช็กชื่อแล้ว</b><p>ข้อมูลอัปเดตจากการใช้งานในอุปกรณ์นี้</p></div></div>
+      <div class="result-box"><h3>ผลการทดสอบระบบ</h3><p>✓ บันทึกเวลาเข้าเรียน</p><p>✓ จัดเก็บข้อมูลในเครื่อง</p><p>✓ ใช้งานกล้อง iPad ได้เมื่ออนุญาตสิทธิ์</p></div>
+    </section>
+  </main>
+
+  <nav><button onclick="go('homePage')">⌂<span>หน้าหลัก</span></button><button onclick="go('scanPage')">◉<span>สแกน</span></button><button onclick="go('historyPage')">☷<span>ประวัติ</span></button><button onclick="go('summaryPage')">▥<span>สรุปผล</span></button></nav>
+</div>
+<script src="app.js"></script>
+</body></html>
